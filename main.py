@@ -3,12 +3,10 @@ from bs4 import BeautifulSoup
 from urllib import parse
 import links
 from pathlib import Path
-import os
 
 
 # URL goes here
-url = "https://subscene.com/u/1077832/subtitles?Id=1077832&page=1&orderBy=latest"
-# url = input("Pleas type the profile link where you want me to start:\r\n")
+url = input("Pleas type the profile link where you want me to start:\r\n")
 
 # Get data from url
 page_link = parse.urlparse(url)
@@ -49,7 +47,7 @@ detailed_file.close()
 
 # Create download folder if not exists
 if not Path(Path('').cwd().__str__() + '/downloads').exists():
-    Path(os.getcwd().__str__() + '/downloads').mkdir()
+    Path(Path('').cwd().__str__() + '/downloads').mkdir()
 
 # Start downloading
 for subtitle in subtitle_urls:
