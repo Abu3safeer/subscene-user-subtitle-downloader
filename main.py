@@ -51,7 +51,6 @@ if not Path(Path('').cwd().__str__() + '/downloads').exists():
 
 # Start downloading
 for subtitle in subtitle_urls:
-    print(f"Downloading {subtitle.get('name')} {subtitle.get('year')}")
 
     # Get download page content
     file_download_page = requests.get(subtitle.get('link')).text
@@ -64,6 +63,8 @@ for subtitle in subtitle_urls:
 
     # Get file name from headers
     file_name = file.headers['content-disposition'][21:]
+
+    print(f"Downloading {subtitle.get('name')} {subtitle.get('year')}: {file_name}")
 
     # Write file content to the folder
     open('downloads/' + file_name, 'wb').write(file.content)
