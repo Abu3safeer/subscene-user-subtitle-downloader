@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def get_subtitle_urls(url, subtitle_urls=[], base_url='https://subscene.com'):
+def get_subtitle_urls(url, subtitle_urls=[], base_url='https://subscene.com', stop_on_empty_profile=True):
     # Get page content
     data = requests.get(url).text
 
@@ -17,9 +17,12 @@ def get_subtitle_urls(url, subtitle_urls=[], base_url='https://subscene.com'):
     if current_page_number is not None:
         current_page_number = current_page_number.text
         print(f'Processing page {current_page_number}...')
-    else:
+    elif stop_on_empty_profile:
         input('No subtitles. Press any key to exit...')
         exit()
+    else:
+        print('empty page. skipping...')
+        return subtitle_urls
 
     # Get previous page link
     if prev_page_url.get('href') is not None:
@@ -65,6 +68,6 @@ def get_subtitle_urls(url, subtitle_urls=[], base_url='https://subscene.com'):
     print(f'{len(subtitle_urls)} links collected')
 
     if next_page_url:
-        get_subtitle_urls(next_page_url, subtitle_urls)
+        get_subtitle_urls(next_page_url, subtitle_urls, stop_on_empty_profile=False)
 
     return subtitle_urls
